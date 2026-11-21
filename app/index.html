@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vice City Neon — GTA VI Trophy Guide &amp; Platinum Tracker</title>
+<meta name="description" content="Offline guide and tracker for the 55 PlayStation 5 trophies of Grand Theft Auto VI: roadmap, missables, 100% ledger, disputes, every step cited.">
+<link rel="stylesheet" href="css/app.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23140b26'/%3E%3Ctext x='16' y='22' font-size='16' text-anchor='middle' fill='%23ff2d78' font-family='Arial Black' font-weight='900'%3EV%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <span class="mark" aria-hidden="true">V</span>
+    <div>
+      <h1>VICE CITY <span>NEON</span></h1>
+      <p class="sub">GTA VI · PlayStation 5 · 55 trophies · every step cited · works offline</p>
+    </div>
+  </div>
+  <div class="progress-wrap">
+    <svg class="ring" width="92" height="92" viewBox="0 0 92 92" aria-hidden="true">
+      <circle cx="46" cy="46" r="38" class="ring-bg"/>
+      <circle cx="46" cy="46" r="38" class="ring-fg" id="ringFg"/>
+      <text x="46" y="43" class="ring-num" id="ringPct">0%</text>
+      <text x="46" y="60" class="ring-lab">PLATINUM</text>
+    </svg>
+    <div class="progress-text">
+      <div class="big"><span id="earnedCount">0</span> / 55 <span class="muted">earned</span></div>
+      <div class="big"><span id="psnCount">0</span> / 1,350 <span class="muted">PSN points</span></div>
+      <div class="grades" id="gradeCounts">0P · 0G · 0S · 0B</div>
+    </div>
+  </div>
+  <div class="actions">
+    <label class="toggle" title="Story trophies stay masked until you earn them or reveal them">
+      <input type="checkbox" id="spoilerInput" checked>
+      <span class="toggle-ui"></span><span>Spoiler shield</span>
+    </label>
+    <button type="button" id="exportBtn">Export progress</button>
+    <button type="button" id="importBtn">Import</button>
+    <input type="file" id="importFile" accept=".json,application/json" hidden>
+    <span class="saved" id="saveStatus">✓ Saved in this browser</span>
+  </div>
+</header>
+
+<section class="audit" id="auditStrip" aria-label="Data audit"></section>
+
+<nav class="tabs" id="viewTabs" role="tablist" aria-label="Views">
+  <button type="button" data-view="tracker" role="tab" class="active">Tracker</button>
+  <button type="button" data-view="roadmap" role="tab">Roadmap</button>
+  <button type="button" data-view="missables" role="tab">Missables <span class="tab-badge" id="missableBadge">1</span></button>
+  <button type="button" data-view="ledger" role="tab">100% Ledger</button>
+  <button type="button" data-view="disputes" role="tab">Disputes</button>
+  <button type="button" data-view="sources" role="tab">Sources</button>
+</nav>
+
+<main id="viewRoot">
+  <section id="view-tracker" class="view active">
+    <div class="tracker-grid">
+      <aside class="col-left">
+        <div class="card next-card">
+          <h2>Next up · roadmap order</h2>
+          <ol id="nextUp" class="next-list"></ol>
+        </div>
+        <div class="card">
+          <h2>Filters</h2>
+          <div id="kindChips" class="chips"></div>
+          <div id="gradeChips" class="chips chips-grades"></div>
+          <label class="checkline"><input type="checkbox" id="hideEarned"> Hide earned</label>
+          <label class="checkline"><input type="checkbox" id="onlyMissable"> Missable / at-risk only</label>
+          <input id="searchBox" type="search" placeholder="Search trophies…" aria-label="Search trophies">
+        </div>
+        <div class="card warn-card">
+          <h2>Before you start</h2>
+          <p>Cheats disable trophies <b>and</b> saving — never enable them on your platinum save. There is no mission replay and no New Game+. Keep a manual save at the start and end of each chapter (15 manual slots + 1 autosave).</p>
+        </div>
+      </aside>
+      <section class="col-center" id="trophyList" aria-label="Trophy checklist"></section>
+      <aside class="col-right">
+        <div class="card guide-card" id="guidePane">
+          <h2>Pick a trophy</h2>
+          <p class="muted">Select any trophy on the left to read its guide here: what to do, where, when it can be missed, and the sources behind each step.</p>
+        </div>
+        <div class="card" id="countCard" hidden>
+          <h2>Count tracker</h2>
+          <div id="countBody"></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="view-roadmap" class="view" hidden>
+    <div class="card roadmap-head">
+      <h2>Roadmap — about 200 hours, one playthrough</h2>
+      <p class="lede">Difficulty <b>4/10</b> (PowerPyx). No difficulty settings, no online trophies, no mission replay, no New Game+. Free roam continues after the story. The clock, not the difficulty, is the boss: the story takes 60–80 hours, the 100% checklist about 100, cleanup about 10. Guides disagree on the total — see Disputes.</p>
+      <div class="stat-row">
+        <div class="stat"><b>~200 h</b><span>to platinum</span></div>
+        <div class="stat"><b>4/10</b><span>difficulty</span></div>
+        <div class="stat"><b>1</b><span>playthrough</span></div>
+        <div class="stat"><b>0</b><span>online trophies</span></div>
+        <div class="stat"><b>5</b><span>chapters</span></div>
+      </div>
+    </div>
+    <div id="roadmapStages" class="roadmap-stages"></div>
+  </section>
+
+  <section id="view-missables" class="view" hidden>
+    <div class="card miss-head">
+      <h2>Missables — read this before Chapter 1 ends</h2>
+      <p class="lede">Only <b>one</b> trophy is potentially missable. Everything else on this page is at-risk, not missable — and several things players worry about do not affect trophies at all. This page separates the three, with the sources for each claim.</p>
+    </div>
+    <div id="missableList"></div>
+    <h2 class="section-title">At risk — finish before the finale</h2>
+    <div id="atRiskGrid" class="risk-grid"></div>
+    <h2 class="section-title">Not missable — stop worrying about these</h2>
+    <div id="safeList" class="safe-list"></div>
+  </section>
+
+  <section id="view-ledger" class="view" hidden>
+    <div class="card ledger-head">
+      <h2>100% Ledger — the road to A Long Road</h2>
+      <p class="lede">The 100% checklist (Progress &gt; Stats &gt; 100% Completion) unlocks after the story, but progress during the story counts. It is closer to 60% true completion: most lines only need part of a set. Only robberies, underwater discoveries, shooting ranges, drone races and Bret's quests need everything. Trophy targets and 100% targets are often different — the table shows both.</p>
+    </div>
+    <div class="ledger-grid">
+      <div class="card">
+        <h2>Counted lines</h2>
+        <table class="ledger-table" id="ledgerTable">
+          <thead><tr><th>Line</th><th>Trophy needs</th><th>100% needs</th><th>Trophy</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h2>What 100% does <i>not</i> need</h2>
+        <ul class="plain-list" id="notNeededList"></ul>
+        <h2 class="subhead">Money lines</h2>
+        <ul class="plain-list" id="moneyList"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="view-disputes" class="view" hidden>
+    <div class="card">
+      <h2>Disputes — where the guides disagree</h2>
+      <p class="lede">Five open questions, both versions shown, and our call on each. A guide that hides its disagreements is guessing; this one shows its work.</p>
+    </div>
+    <div id="disputeList" class="dispute-list"></div>
+  </section>
+
+  <section id="view-sources" class="view" hidden>
+    <div class="card">
+      <h2>Sources — read 21 Nov 2026</h2>
+      <p class="lede">Every factual claim in this guide cites its sources. Claim counts below are computed from the guide's own data. Trophy names, descriptions and grades are the official PlayStation list. Pages that refused to load are not cited.</p>
+    </div>
+    <div class="card">
+      <h2>Per-source claim counts</h2>
+      <table class="ledger-table" id="sourceTable">
+        <thead><tr><th>Source</th><th>Page</th><th>Depth</th><th>Claims cited</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h2>How to check our work</h2>
+      <ul class="plain-list">
+        <li>Open any trophy's guide: each step carries its source shortcode ([PPX], [KG], [SNAP], [TGW], [SPOT]).</li>
+        <li>Open <code>app/data/trophies.json</code> in this repository: every trophy, its guide and its step sources are there in plain text.</li>
+        <li>Where a method is unconfirmed, the guide says so on the trophy itself (Bad Luck, I Guess and The Truth Is Out There).</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <p><b>Vice City Neon</b> — an unofficial fan guide. Trophy names, descriptions and grades are shown as PlayStation publishes them; every guide is written in our own words and cites where its facts come from. No Rockstar artwork or logos are used. Works fully offline: nothing is fetched from the network.</p>
+  <p class="muted">GTA VI released 19 Nov 2026 · Guide data read 21 Nov 2026 · 55 trophies · 1,350 PSN points</p>
+</footer>
+<script src="js/app.js"></script>
+</body>
+</html>
